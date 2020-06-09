@@ -1,5 +1,11 @@
 package com.nyiit.myapplication
 
+import android.content.Context
+import android.view.View
+import android.widget.Button
+import android.widget.TextView
+import org.w3c.dom.Text
+
 fun collectionTest() {
 
 }
@@ -41,4 +47,30 @@ fun listFunctionTest() {
         println("listFunctionTest filter $i")  //先filter
         i % 3 == 0
     }.forEach{println("listFunctionTest find: $it")}
+}
+
+fun genericTest(context: Context) { //范形测试
+   var arrayTv : Array<TextView> = arrayOf(TextView(context));
+    var btn: Button = Button(context);
+    btn.id = R.id.hello_btn
+    //arrayBtn[0] = textView;
+    fill(arrayTv, btn)
+
+    var arrayBtn: Array<Button> = arrayOf(btn);
+    copy(arrayTv, arrayBtn);
+
+    //数组之间赋值不支持协变,子类array不能赋值给父亲类型的array
+    //arrayTv = arrayBtn;
+}
+
+private fun <T> fill(array: Array<in T>, item: T) { //in类似 ? super, 下界是T
+    array[0] = item
+    println(array[0])
+}
+
+private fun <T> copy(arrayDst: Array<in T>, arraySrc: Array<out T>) { //out类似 ？ extends
+    for (i in arraySrc.indices) {
+        arrayDst[i] = arraySrc[i];
+    }
+    println(arrayDst[0])
 }
